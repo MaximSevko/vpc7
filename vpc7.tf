@@ -1,62 +1,69 @@
-
+# Configure the AWS provider
 provider "aws" {
-  region = var.AWS_Region
+  region = "us-west-2"
 }
 
-resource "aws_vpc" "main" {
-  cidr_block       = var.vpc_cidr_block
-  assign_generated_ipv6_cidr_block = true
-  instance_tenancy = "default"
-
-  tags = {
-    Name = "main"
-  }
+# Create a VPC
+resource "aws_vpc" "example_vpc" {
+  cidr_block = "10.0.0.0/16"
+  enable_ipv6 = true
 }
 
-resource "aws_subnet" "subnet_private" {
-    for_each = var.availability_zones
-
-    vpc_id = aws_vpc.main.id
-
-    availability_zone = each.key
-    // Removed unnecessary code related to IPv6 CIDR block
-    //map_public_ip_on_launch = true // Changed to false to make this a private subnet
-
-    tags = {
-        Name = "subnet-private-${each.value + 10}"
-    }
+# Create an internet gateway and attach it to the VPC
+resource "aws_internet_gateway" "example_igw" {
+  vpc_id = aws_vpc.example_vpc.id
 }
 
-resource "aws_internet_gateway" "igw" {
-    vpc_id = aws_vpc.main.id
-    tags = {
-        Name = "igw"
-    }
+# Create an egress-only internet gateway and attach it to the VPC
+resource "aws_egress_only_internet_gateway" "example_egress" {
+  vpc_id = aws_vpc.example_vpc.id
 }
 
-resource "aws_route_table" "public-rt" {
-    vpc_id = aws_vpc.main.id
-    
-    route {
-        // Associated subnet can reach everywhere
-        cidr_block = "0.0.0.0/0"
-        // CRT uses this IGW to reach the internet
-        gateway_id = aws_internet_gateway.igw.id 
-    }
-    
-    tags = {
-        Name = "public-rt"
-    }
+# Create the private subnets
+resource "aws_subnet" "example_private_subnet_1" {
+  vpc_id = aws_vpc.example_vpc.id
+  cidr_block = "10.0.1.0/24"
+  ipv6_cidr_block = "${cidrsubnet(aws_vpc.example_vpc.ipv6_cidr_block, 8, 1)}"
+  availability_zone = "us-west-2a"
 }
 
-// Create an egress-only internet gateway
-resource "aws_egress_only_internet_gateway" "egw" {
-  vpc_id = aws_vpc.main.id
+resource "aws_subnet" "example_private_subnet_2" {
+  vpc_id = aws_vpc.example_vpc.id
+  cidr_block = "10.0.2.0/24"
+  ipv6_cidr_block = "${cidrsubnet(aws_vpc.example_vpc.ipv6_cidr_block, 8, 2)}"
+  availability_zone = "us-west-2b"
 }
 
-resource "aws_route_table_association" "rta-public-subnet"{
-    for_each = var.availability_zones
+resource "aws_subnet" "example_private_subnet_3" {
+  vpc_id = aws_vpc.example_vpc.id
+  cidr_block = "10.0.3.0/24"
+  ipv6_cidr_block = "${cidrsubnet(aws_vpc.example_vpc.ipv6_cidr_block, 8, 3)}"
+  availability_zone = "us-west-2c"
+}
 
-    subnet_id = aws_subnet.subnet_private[each.key].id
-    route_table_id = aws_route_table.public-rt.id
+# Create the intra subnets
+resource "aws_subnet" "example_intra_subnet_1" {
+  vpc_id = aws_vpc.example_vpc.id
+  cidr_block = "10.0.4.0/24"
+  ipv6_cidr_block = "${cidrsubnet(aws_vpc.example_vpc.ipv6_cidr_block, 8, 4)}"
+  availability_zone = "us-west-2a"
+}
+
+resource "aws_subnet" "example_intra_subnet_2" {
+  vpc_id = aws_vpc.example_vpc.id
+  cidr_block = "10.0.5.0/24"
+  ipv6_cidr_block = "${cidrsubnet(aws_vpc.example_vpc.ipv6_cidr_block, 8, 5)}"
+  availability_zone = "us-west-2b"
+}
+
+resource "aws_subnet" "example_intra_subnet_3" {
+  vpc_id = aws_vpc.example_vpc.id
+  cidr_block = "10.0.6.0/24"
+  ipv6_cidr_block = "${cidrsubnet(aws_vpc.example_vpc.ipv6_cidr_block, 8, 6)}"
+  availability_zone = "us-west-2c"
+}
+
+# Create a route table for the private subnets and associate them with the route table
+resource "aws_route_table" "example_private_rt" {
+  vpc_id = aws_vpc.example_vpc.id
 }
