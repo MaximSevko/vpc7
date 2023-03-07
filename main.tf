@@ -46,7 +46,6 @@ resource "aws_subnet" "intra_subnet" {
 
 resource "aws_route_table" "private_subnet_route_table" {
   # Create one route table per private subnet
-  count = length(var.private_subnet_cidr_blocks)
 
   # Associate with the VPC
   vpc_id = aws_vpc.vpc7.id
@@ -59,13 +58,12 @@ resource "aws_route_table" "private_subnet_route_table" {
 
   # Add a unique name tag for each route table
   tags = {
-    Name = "private-subnet-route-table-${count.index}"
+    Name = "private-subnet-route-table"
   }
 }
 
 resource "aws_route_table" "intra_subnet_route_table" {
   # Create one route table per intra subnet
-  count = length(var.intra_subnet_cidr_blocks)
 
   # Associate with the VPC
   vpc_id = aws_vpc.vpc7.id
@@ -78,7 +76,7 @@ resource "aws_route_table" "intra_subnet_route_table" {
 
   # Add a unique name tag for each route table
   tags = {
-    Name = "intra-subnet-route-table-${count.index}"
+    Name = "intra-subnet-route-table"
   }
 }
 
