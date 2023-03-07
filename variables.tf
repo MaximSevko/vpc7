@@ -4,15 +4,15 @@ variable "aws_region" {
 
 # Define the VPC and subnet CIDR blocks
 variable "vpc_cidr_block" {
-  default = "fd00:10:0::/56"
+  default = "fd00:1234:5678:9abc::/64"
 }
 
 # Define the IPv6 CIDR blocks for private subnets
 variable "private_subnet_cidr_blocks" {
-  default = ["fd00:10:1::/64", "fd00:10:2::/64", "fd00:10:3::/64"]
+  default = ["fd00:1234:5678:9abc:11::/68", "fd00:1234:5678:9abc:12::/68", "fd00:1234:5678:9abc:13::/68"]
 }
 
 # Define the IPv6 CIDR blocks for intra subnets
 variable "intra_subnet_cidr_blocks" {
-  default = ["fd00:20:1::/64", "fd00:20:2::/64", "fd00:20:3::/64"]
+  default = ["fd00:1234:5678:9abc:21::/68", "fd00:1234:5678:9abc:22::/68", "fd00:1234:5678:9abc:23::/68"]
 }
