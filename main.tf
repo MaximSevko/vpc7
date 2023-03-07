@@ -39,13 +39,13 @@ resource "aws_subnet" "intra_subnet" {
   assign_ipv6_address_on_creation = true
 }
 
-# Associate the private subnets with the egress-only gateway
-resource "ipv6_cidr_block_association" "private" {
-  count           = length(var.private_subnet_cidr_blocks)
-  subnet_id       = aws_subnet.private_subnet[count.index].id
-  ipv6_cidr_block = aws_subnet.private_subnet[count.index].ipv6_cidr_block_association[0].ipv6_cidr_block
-  egress_only_gateway_id = aws_egress_only_internet_gateway.egress_gateway.id
-}
+## Associate the private subnets with the egress-only gateway
+#resource "ipv6_cidr_block_association" "private" {
+#  count           = length(var.private_subnet_cidr_blocks)
+#  subnet_id       = aws_subnet.private_subnet[count.index].id
+#  ipv6_cidr_block = aws_subnet.private_subnet[count.index].ipv6_cidr_block_association[0].ipv6_cidr_block
+#  egress_only_gateway_id = aws_egress_only_internet_gateway.egress_gateway.id
+#}
 
 
 resource "aws_route_table" "private_subnet_route_table" {
