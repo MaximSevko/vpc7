@@ -4,7 +4,7 @@ provider "aws" {
 
 # Create a VPC with the specified IPv6 CIDR block
 resource "aws_vpc" "vpc7" {
-  assign_ipv6_address_on_creation = true
+  assign_generated_ipv6_cidr_block = "true"
 
   tags = {
     Name = "example-vpc"
