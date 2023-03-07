@@ -83,11 +83,11 @@ resource "aws_route_table" "intra_subnet_route_table" {
 resource "aws_route_table_association" "private_subnet_association" {
   # Associate each private subnet with its corresponding route table
   subnet_id      = aws_subnet.private_subnet.id
-  route_table_id = aws_route_table.private_subnet_route_table[count.index].id
+  route_table_id = aws_route_table.private_subnet_route_table.id
 }
 
 resource "aws_route_table_association" "intra_subnet_association" {
   # Associate each intra subnet with its corresponding route table
   subnet_id      = aws_subnet.intra_subnet.id
-  route_table_id = aws_route_table.intra_subnet_route_table[count.index].id
+  route_table_id = aws_route_table.intra_subnet_route_table.id
 }
