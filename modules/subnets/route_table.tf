@@ -3,12 +3,12 @@ resource "aws_route_table" "private_subnet_route_table" {
   count = length(var.private_subnet_cidr_blocks)
 
   # Associate with the VPC
-  vpc_id = aws_vpc.example_vpc.id
+  vpc_id = aws_vpc.vpc7.id
 
   # Route all traffic to the egress-only internet gateway
   route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_egress_only_internet_gateway.example_egress_gateway.id
+    cidr_block = "::/0"
+    gateway_id = aws_egress_only_internet_gateway.egress_gateway.id
   }
 
   # Add a unique name tag for each route table
@@ -22,12 +22,12 @@ resource "aws_route_table" "intra_subnet_route_table" {
   count = length(var.intra_subnet_cidr_blocks)
 
   # Associate with the VPC
-  vpc_id = aws_vpc.example_vpc.id
+  vpc_id = aws_vpc.vpc7.id
 
   # Route all traffic to the internet gateway
   route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.example_igw.id
+    cidr_block = "::/0"
+    gateway_id = aws_internet_gateway.igw.id
   }
 
   # Add a unique name tag for each route table
