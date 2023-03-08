@@ -6,7 +6,7 @@ This Terraform code creates a VPC with 3 IPv6-only private subnets, 3 IPv6-only 
 
 1. Clone this repository: git clone https://github.com/MaximSevko/vpc7.git
 
-2. Change directory to the cloned repository: cd vpc7
+2. Change directory to the cloned repository: `cd vpc7`
 
 3. Modify the `variables.tf` file to set the VPC and subnet CIDR blocks as desired. You can also modify the `aws_region` variable if you want to deploy to a different AWS region.
 
