@@ -25,24 +25,24 @@ resource "aws_internet_gateway" "igw" {
 
 # Create the private subnets
 resource "aws_subnet" "private_subnet" {
+  cidr_block             = var.private_subnet_cidr_blocks
   vpc_id                 = aws_vpc.vpc7.id
   assign_ipv6_address_on_creation = true
 }
 
 # Create the intra subnets
 resource "aws_subnet" "intra_subnet" {
-
+  cidr_block             = var.intra_subnet_cidr_blocks
   vpc_id                 = aws_vpc.vpc7.id
   assign_ipv6_address_on_creation = true
 }
 
-## Associate the private subnets with the egress-only gateway
-#resource "ipv6_cidr_block_association" "private" {
-#  count           = length(var.private_subnet_cidr_blocks)
-#  subnet_id       = aws_subnet.private_subnet[count.index].id
-#  ipv6_cidr_block = aws_subnet.private_subnet[count.index].ipv6_cidr_block_association[0].ipv6_cidr_block
-#  egress_only_gateway_id = aws_egress_only_internet_gateway.egress_gateway.id
-#}
+# Associate the private subnets with the egress-only gateway
+resource "ipv6_cidr_block_association" "private" {
+  subnet_id       = aws_subnet.private_subnet.id
+  ipv6_cidr_block = aws_subnet.private_subnet.ipv6_cidr_block_association[0].ipv6_cidr_block
+  egress_only_gateway_id = aws_egress_only_internet_gateway.egress_gateway.id
+}
 
 
 resource "aws_route_table" "private_subnet_route_table" {
@@ -65,6 +65,7 @@ resource "aws_route_table" "private_subnet_route_table" {
 
 resource "aws_route_table" "intra_subnet_route_table" {
   # Create one route table per intra subnet
+
   # Associate with the VPC
   vpc_id = aws_vpc.vpc7.id
 
@@ -82,10 +83,12 @@ resource "aws_route_table" "intra_subnet_route_table" {
 
 resource "aws_route_table_association" "private_subnet_association" {
   # Associate each private subnet with its corresponding route table
+  subnet_id      = aws_subnet.private_subnet.id
   route_table_id = aws_route_table.private_subnet_route_table.id
 }
 
 resource "aws_route_table_association" "intra_subnet_association" {
   # Associate each intra subnet with its corresponding route table
+  subnet_id      = aws_subnet.intra_subnet.id
   route_table_id = aws_route_table.intra_subnet_route_table.id
 }
