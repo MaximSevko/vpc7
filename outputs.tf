@@ -11,7 +11,7 @@ output "intra_subnet_ids" {
 }
 
 output "internet_gateway_id" {
-  value = igw.igw.id
+  value = aws_internet_gateway.igw.id
 }
 
 output "egress_gateway_id" {
