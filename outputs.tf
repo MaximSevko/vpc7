@@ -1,9 +1,11 @@
 output "vpc_id" {
+  description = "vpc_id"
   value = aws_vpc.vpc7.id
 }
 
 output "private_subnet_ids" {
-  value = aws_subnet.private_subnet.id
+    description = "subnet_id"
+    value = aws_subnet.private_subnet.id
 }
 
 output "intra_subnet_ids" {

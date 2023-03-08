@@ -1,7 +1,3 @@
-provider "aws" {
-  region = var.aws_region
-}
-
 # Create a VPC with the specified IPv6 CIDR block
 resource "aws_vpc" "vpc7" {
   assign_generated_ipv6_cidr_block = "true"
