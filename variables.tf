@@ -1,5 +1,5 @@
 variable "aws_region" {
-    default = "eu-central-1"
+    default = "us-east-1"
 }
 
 # Define the VPC and subnet CIDR blocks
