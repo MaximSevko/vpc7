@@ -25,14 +25,12 @@ resource "aws_internet_gateway" "igw" {
 
 # Create the private subnets
 resource "aws_subnet" "private_subnet" {
-  cidr_block             = var.private_subnet_cidr_blocks
   vpc_id                 = aws_vpc.vpc7.id
   assign_ipv6_address_on_creation = true
 }
 
 # Create the intra subnets
 resource "aws_subnet" "intra_subnet" {
-  cidr_block             = var.intra_subnet_cidr_blocks
   vpc_id                 = aws_vpc.vpc7.id
   assign_ipv6_address_on_creation = true
 }
