@@ -4,7 +4,7 @@ resource "aws_vpc" "vpc7" {
 
   tags = {
     Name        = "vpc7"
-    Environment = "dev"
+    Environment = var.env
   }
 }
 
@@ -14,7 +14,7 @@ resource "aws_egress_only_internet_gateway" "egress_gateway" {
 
   tags = {
     Name        = "egress-gateway"
-    Environment = "dev"
+    Environment = var.env
   }
 }
 
@@ -24,7 +24,7 @@ resource "aws_internet_gateway" "igw" {
 
   tags = {
     Name        = "internet-gateway"
-    Environment = "dev"
+    Environment = var.env
   }
 }
 
@@ -35,7 +35,7 @@ resource "aws_subnet" "private_subnet" {
 
   tags = {
     Name        = "private-subnet"
-    Environment = "dev"
+    Environment = var.env
   }
 }
 
@@ -46,7 +46,7 @@ resource "aws_subnet" "intra_subnet" {
 
   tags = {
     Name        = "intra-subnet"
-    Environment = "dev"
+    Environment = var.env
   }
 }
 
@@ -65,7 +65,7 @@ resource "aws_route_table" "private_subnet_route_table" {
   # Add a unique name tag for each route table
   tags = {
     Name        = "private-subnet-route-table"
-    Environment = "dev"
+    Environment = var.env
   }
 }
 
@@ -84,7 +84,7 @@ resource "aws_route_table" "intra_subnet_route_table" {
   # Add a unique name tag for each route table
   tags = {
     Name        = "intra-subnet-route-table"
-    Environment = "dev"
+    Environment = var.env
   }
 }
 
