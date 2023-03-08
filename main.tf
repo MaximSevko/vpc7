@@ -57,8 +57,8 @@ resource "aws_route_table" "intra_subnet_route_table" {
 
   # Route all traffic to the internet gateway
   route {
-    cidr_block = "::/0"
-    gateway_id = aws_internet_gateway.igw.id
+    cidr_block = aws_subnet.intra_subnet.ipv6_cidr_block
+    gateway_id = "local"
   }
 
   # Add a unique name tag for each route table
