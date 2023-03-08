@@ -3,32 +3,51 @@ resource "aws_vpc" "vpc7" {
   assign_generated_ipv6_cidr_block = "true"
 
   tags = {
-    Name = "example-vpc"
+    Name        = "vpc7"
+    Environment = "dev"
   }
 }
-
 
 # Create an egress-only internet gateway and associate it with the VPC
 resource "aws_egress_only_internet_gateway" "egress_gateway" {
   vpc_id = aws_vpc.vpc7.id
+
+  tags = {
+    Name        = "egress-gateway"
+    Environment = "dev"
+  }
 }
 
 # Create an internet gateway and associate it with the VPC
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.vpc7.id
-}
 
+  tags = {
+    Name        = "internet-gateway"
+    Environment = "dev"
+  }
+}
 
 # Create the private subnets
 resource "aws_subnet" "private_subnet" {
   vpc_id                 = aws_vpc.vpc7.id
   assign_ipv6_address_on_creation = true
+
+  tags = {
+    Name        = "private-subnet"
+    Environment = "dev"
+  }
 }
 
 # Create the intra subnets
 resource "aws_subnet" "intra_subnet" {
   vpc_id                 = aws_vpc.vpc7.id
   assign_ipv6_address_on_creation = true
+
+  tags = {
+    Name        = "intra-subnet"
+    Environment = "dev"
+  }
 }
 
 resource "aws_route_table" "private_subnet_route_table" {
@@ -45,7 +64,8 @@ resource "aws_route_table" "private_subnet_route_table" {
 
   # Add a unique name tag for each route table
   tags = {
-    Name = "private-subnet-route-table"
+    Name        = "private-subnet-route-table"
+    Environment = "dev"
   }
 }
 
@@ -63,7 +83,8 @@ resource "aws_route_table" "intra_subnet_route_table" {
 
   # Add a unique name tag for each route table
   tags = {
-    Name = "intra-subnet-route-table"
+    Name        = "intra-subnet-route-table"
+    Environment = "dev"
   }
 }
 
